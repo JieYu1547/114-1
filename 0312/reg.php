@@ -1,14 +1,21 @@
-<?php
-    if(isset($_POST["acct"])) {
-            var_dump($_POST)
-
-    }
-?>
-
 <html>
     <head>
         <title>註冊會員</title>
         <meta charset="UTF-8">
+        <script>
+<?php
+    if(isset($_POST["acct"])) {
+        if(strcmp($_POST["pass1"],$_POST["pass2"]))
+        print("<script>alert('密碼不一致');<scrpt>");
+        } else {
+            $fp=fopen("member.csv","a");
+            fputcsv($fp,[$_POST["acct"],$_POST["name"],
+            passWord_hash($_POST["pass1"],PASSWORD_DEFAULT)]);
+
+            fclose($fp);
+        }
+?>
+        </script>
     </head>
     <body>
         <H1>註冊會員</H1>
