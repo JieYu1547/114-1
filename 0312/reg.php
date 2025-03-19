@@ -5,15 +5,32 @@
         <script>
 <?php
     if(isset($_POST["acct"])) {
-        if(strcmp($_POST["pass1"],$_POST["pass2"]))
-        print("<script>alert('密碼不一致');<scrpt>");
+        if(strcmp($_POST["pass1"],$_POST["pass2"])) {
+            print("<script>alert('密碼不一致');<scrpt>");
         } else {
-            $fp=fopen("member.csv","a");
+            $filename="member.csv";
+            $newmember=true;
+            if(file_exists($filename)) {
+                $fp=fopen($filename,"r");
+                while(($member=fgetcsv($fp,1000))!==FALSE) {
+                    if(0==strcmp($member[0],$_POST["acct"])) {
+                        printf("alert('會員已存在');");
+                        break;
+                    }
+                }
+                fclose($fp);
+        }
+        if($newmember) {
+            $fp=fopen($filename,"a");
             fputcsv($fp,[$_POST["acct"],$_POST["name"],
             passWord_hash($_POST["pass1"],PASSWORD_DEFAULT)]);
-
             fclose($fp);
         }
+
+
+            
+        }
+    }
 ?>
         </script>
     </head>
