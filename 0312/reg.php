@@ -6,7 +6,7 @@
 <?php
     if(isset($_POST["acct"])) {
         if(strcmp($_POST["pass1"],$_POST["pass2"])) {
-            print("<script>alert('密碼不一致');<scrpt>");
+            print("alert('密碼不一致');");
         } else {
             $filename="member.csv";
             $newmember=true;
@@ -15,6 +15,7 @@
                 while(($member=fgetcsv($fp,1000))!==FALSE) {
                     if(0==strcmp($member[0],$_POST["acct"])) {
                         printf("alert('會員已存在');");
+                        $newmember=false;
                         break;
                     }
                 }
@@ -23,12 +24,10 @@
         if($newmember) {
             $fp=fopen($filename,"a");
             fputcsv($fp,[$_POST["acct"],$_POST["name"],
-            passWord_hash($_POST["pass1"],PASSWORD_DEFAULT)]);
+                password_hash($_POST["pass1"],PASSWORD_DEFAULT)]);
             fclose($fp);
-        }
-
-
-            
+            printf("location.href='login.php';");
+            }   
         }
     }
 ?>
