@@ -13,7 +13,7 @@
         } else {
             $rows = $res->fetch_assoc();
             if(password_verify($_POST["pass"],$row["pass"])) {
-                printf(alert"('歡迎登入，%s');",$row["name"]);
+                printf("alert('歡迎登入，%s');",$row["name"]);
                 printf("location.href='mysql_reg.php';");
             }
         }
